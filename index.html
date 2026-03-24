@@ -24,12 +24,16 @@ body {
   font-size: 18px;
   font-weight: bold;
   padding: 10px;
-  background: #007aff;
   color: white;
   border-radius: 8px;
   margin-top: 10px;
   text-align: center;
   cursor: pointer;
+  background: #FF9B9B; /* collapsed color */
+}
+
+.panel-title.active {
+  background: #007aff; /* active/open color */
 }
 
 .panel {
@@ -70,7 +74,7 @@ button {
 <div class="container">
 
   <!-- PANEL 1 -->
-  <div class="panel-title" onclick="togglePanel('panel1')">
+  <div class="panel-title" id="title1" onclick="togglePanel('panel1','title1')">
     Calculare Marja
   </div>
 
@@ -83,7 +87,7 @@ button {
   </div>
 
   <!-- PANEL 2 -->
-  <div class="panel-title" onclick="togglePanel('panel2')">
+  <div class="panel-title" id="title2" onclick="togglePanel('panel2','title2')">
     Calculare Pret
   </div>
 
@@ -98,14 +102,19 @@ button {
 </div>
 
 <script>
-function togglePanel(id) {
+function togglePanel(panelId, titleId) {
   let panels = document.querySelectorAll(".panel");
+  let titles = document.querySelectorAll(".panel-title");
 
   panels.forEach(panel => {
-    if (panel.id === id) {
-      panel.style.display = (panel.style.display === "block") ? "none" : "block";
+    panel.style.display = (panel.id === panelId && panel.style.display !== "block") ? "block" : "none";
+  });
+
+  titles.forEach(title => {
+    if (title.id === titleId && document.getElementById(panelId).style.display === "block") {
+      title.classList.add("active");
     } else {
-      panel.style.display = "none";
+      title.classList.remove("active");
     }
   });
 }
@@ -123,7 +132,7 @@ function formatNumber(value) {
   });
 }
 
-// PANEL 1 (Calculare Marja)
+// PANEL 1
 function calculateMJ() {
   let pa = parseNumber(document.getElementById("pa").value);
   let vatInput = parseNumber(document.getElementById("vat").value);
@@ -141,7 +150,7 @@ function calculateMJ() {
     "Marja: " + formatNumber(marja * 100) + " %";
 }
 
-// PANEL 2 (Calculare Pret)
+// PANEL 2
 function calculatePrice() {
   let pa = parseNumber(document.getElementById("pa2").value);
   let vatInput = parseNumber(document.getElementById("vat2").value);
