@@ -55,10 +55,15 @@ button {
   width: 100%;
   padding: 12px;
   font-size: 18px;
-  background: #007aff;
-  color: white;
+  background: #91FDBA; /* green to match open panel */
+  color: white; /* text white */
   border: none;
   border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85; /* subtle hover effect */
 }
 
 .result {
@@ -113,9 +118,9 @@ function togglePanel(panelId, titleId) {
 
   titles.forEach(title => {
     if (title.id === titleId && document.getElementById(panelId).style.display === "block") {
-      title.classList.add("active"); // open = green/black
+      title.classList.add("active"); // open = green
     } else {
-      title.classList.remove("active"); // collapsed = blue/white
+      title.classList.remove("active"); // collapsed = blue
     }
   });
 }
