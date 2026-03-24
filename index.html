@@ -29,11 +29,11 @@ body {
   margin-top: 10px;
   text-align: center;
   cursor: pointer;
-  background: #FF9B9B; /* collapsed color */
+  background: #007aff; /* default: blue when collapsed? changed logic in JS */
 }
 
-.panel-title.active {
-  background: #007aff; /* active/open color */
+.panel-title.collapsed {
+  background: #91FDBA; /* green when collapsed */
 }
 
 .panel {
@@ -74,7 +74,7 @@ button {
 <div class="container">
 
   <!-- PANEL 1 -->
-  <div class="panel-title" id="title1" onclick="togglePanel('panel1','title1')">
+  <div class="panel-title collapsed" id="title1" onclick="togglePanel('panel1','title1')">
     Calculare Marja
   </div>
 
@@ -87,7 +87,7 @@ button {
   </div>
 
   <!-- PANEL 2 -->
-  <div class="panel-title" id="title2" onclick="togglePanel('panel2','title2')">
+  <div class="panel-title collapsed" id="title2" onclick="togglePanel('panel2','title2')">
     Calculare Pret
   </div>
 
@@ -112,9 +112,9 @@ function togglePanel(panelId, titleId) {
 
   titles.forEach(title => {
     if (title.id === titleId && document.getElementById(panelId).style.display === "block") {
-      title.classList.add("active");
+      title.classList.remove("collapsed"); // active = blue
     } else {
-      title.classList.remove("active");
+      title.classList.add("collapsed"); // collapsed = green
     }
   });
 }
