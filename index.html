@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MJ Calculator</title>
+<title>Calculator Marja</title>
 
 <style>
 body {
@@ -70,27 +70,27 @@ button {
 
   <!-- PANEL 1 -->
   <div class="panel-title" onclick="togglePanel('panel1')">
-    Margin Calculator (MJ)
+    Calculare Marja
   </div>
 
   <div class="panel" id="panel1">
-    <input id="ek" placeholder="EK (150)">
-    <input id="vat" placeholder="VAT % (21)">
-    <input id="sp" placeholder="SP (302,5)">
-    <button onclick="calculateMJ()">Calculate MJ</button>
+    <input id="pa" placeholder="PA (150)">
+    <input id="vat" placeholder="TVA % (21)">
+    <input id="pv" placeholder="PV (302,5)">
+    <button onclick="calculateMJ()">Calculeaza Marja</button>
     <div class="result" id="result1"></div>
   </div>
 
   <!-- PANEL 2 -->
   <div class="panel-title" onclick="togglePanel('panel2')">
-    Price Calculator
+    Calculare Pret
   </div>
 
   <div class="panel" id="panel2">
-    <input id="ek2" placeholder="EK (150)">
-    <input id="vat2" placeholder="VAT % (21)">
-    <input id="mj2" placeholder="MJ % (25)">
-    <button onclick="calculatePrice()">Calculate Price</button>
+    <input id="pa2" placeholder="PA (150)">
+    <input id="vat2" placeholder="TVA % (21)">
+    <input id="marja2" placeholder="Marja % (25)">
+    <button onclick="calculatePrice()">Calculeaza Pret</button>
     <div class="result" id="result2"></div>
   </div>
 
@@ -115,42 +115,42 @@ function formatNumber(value) {
   });
 }
 
-// PANEL 1 LOGIC
+// PANEL 1 (Calculare Marja)
 function calculateMJ() {
-  let ek = parseNumber(document.getElementById("ek").value);
+  let pa = parseNumber(document.getElementById("pa").value);
   let vatInput = parseNumber(document.getElementById("vat").value);
-  let sp = parseNumber(document.getElementById("sp").value);
+  let pv = parseNumber(document.getElementById("pv").value);
 
-  if (isNaN(ek) || isNaN(vatInput) || isNaN(sp) || sp === 0) {
-    document.getElementById("result1").innerText = "Invalid values";
+  if (isNaN(pa) || isNaN(vatInput) || isNaN(pv) || pv === 0) {
+    document.getElementById("result1").innerText = "Valori invalide";
     return;
   }
 
   let vat = 1 + (vatInput / 100);
-  let mj = 1 - (ek * vat / sp);
+  let marja = 1 - (pa * vat / pv);
 
   document.getElementById("result1").innerText =
-    "MJ: " + formatNumber(mj * 100) + " %";
+    "Marja: " + formatNumber(marja * 100) + " %";
 }
 
-// PANEL 2 LOGIC (your formula)
+// PANEL 2 (Calculare Pret)
 function calculatePrice() {
-  let ek = parseNumber(document.getElementById("ek2").value);
+  let pa = parseNumber(document.getElementById("pa2").value);
   let vatInput = parseNumber(document.getElementById("vat2").value);
-  let mjInput = parseNumber(document.getElementById("mj2").value);
+  let marjaInput = parseNumber(document.getElementById("marja2").value);
 
-  if (isNaN(ek) || isNaN(vatInput) || isNaN(mjInput)) {
-    document.getElementById("result2").innerText = "Invalid values";
+  if (isNaN(pa) || isNaN(vatInput) || isNaN(marjaInput)) {
+    document.getElementById("result2").innerText = "Valori invalide";
     return;
   }
 
   let vat = 1 + (vatInput / 100);
-  let mj = 1 - (mjInput / 100); // 25% → 0.75
+  let marja = 1 - (marjaInput / 100);
 
-  let price = (ek * vat) / mj;
+  let price = (pa * vat) / marja;
 
   document.getElementById("result2").innerText =
-    "Price: " + formatNumber(price);
+    "Pret: " + formatNumber(price);
 }
 </script>
 
