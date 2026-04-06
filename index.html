@@ -52,7 +52,7 @@ body {
 }
 
 .panel.open {
-  max-height: 500px;
+  max-height: 600px;
 }
 
 /* INPUTS */
@@ -87,9 +87,12 @@ button:hover {
 /* RESULT DISPLAY */
 .result {
   margin-top: 15px;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 18px;
   text-align: center;
+}
+
+.result strong {
+  font-size: 20px;
 }
 </style>
 </head>
@@ -135,6 +138,20 @@ button:hover {
     <input id="vat3" placeholder="TVA % (21)">
     <button onclick="calculateWES()">Calculeaza WES</button>
     <div class="result" id="result3"></div>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="panel-title" id="title4" onclick="togglePanel('panel4','title4')">
+    Rotatie
+  </div>
+
+  <div class="panel" id="panel4">
+    <input id="vanzare4" placeholder="Vanzare (510)">
+    <input id="stoc4" placeholder="Stoc (890)">
+    <input id="zile4" placeholder="Zile | Luni (52 sau 1,7)">
+    <input id="perioada4" placeholder="Perioada Analiza (365 sau 12)">
+    <button onclick="calculateRotatie()">Calculeaza Rotatie</button>
+    <div class="result" id="result4"></div>
   </div>
 
 </div>
@@ -235,6 +252,35 @@ function calculateWES() {
 
   document.getElementById("result3").innerText =
     "WES: " + formatNumber(wes);
+}
+
+// PANEL 4
+function calculateRotatie() {
+  let vanzare = parseNumber(document.getElementById("vanzare4").value);
+  let stoc = parseNumber(document.getElementById("stoc4").value);
+  let zile = parseNumber(document.getElementById("zile4").value);
+  let perioada = parseNumber(document.getElementById("perioada4").value);
+
+  if (
+    isNaN(vanzare) ||
+    isNaN(stoc) ||
+    isNaN(zile) ||
+    isNaN(perioada) ||
+    stoc === 0 ||
+    zile === 0
+  ) {
+    document.getElementById("result4").innerText = "Valori invalide";
+    return;
+  }
+
+  let rata = vanzare / zile;
+  let proiectie = perioada * rata;
+  let rotatie = proiectie / stoc;
+
+  document.getElementById("result4").innerHTML =
+    "Rata Vanzare: " + formatNumber(rata) + "<br>" +
+    "Proiectie Vanzare: " + formatNumber(proiectie) + "<br><br>" +
+    "<strong>ROTATIE STOC: " + formatNumber(rotatie) + "</strong>";
 }
 </script>
 
