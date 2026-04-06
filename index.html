@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Calculator Marja</title>
+
+<style>
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* PANEL TITLES */
+.panel-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+  text-align: center;
+  cursor: pointer;
+  background: #007aff;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.panel-title.active {
+  background: #91FDBA;
+  color: black;
+}
+
+.panel-title:hover {
+  filter: brightness(1.1);
+}
+
+/* PANEL CONTENT */
+.panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+  margin-top: 10px;
+}
+
+.panel.open {
+  max-height: 500px;
+}
+
+/* INPUTS */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 15px 0;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTONS */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background: #91FDBA;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.7;
+  transform: scale(1.03);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+/* RESULT DISPLAY */
+.result {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- PANEL 1 -->
+  <div class="panel-title" id="title1" onclick="togglePanel('panel1','title1')">
+    Calculare Marja
+  </div>
+
+  <div class="panel" id="panel1">
+    <input id="pa" placeholder="PA (150)">
+    <input id="vat" placeholder="TVA % (21)">
+    <input id="pv" placeholder="PV (302,5)">
+    <button onclick="calculateMJ()">Calculeaza Marja</button>
+    <div class="result" id="result1"></div>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="panel-title" id="title2" onclick="togglePanel('panel2','title2')">
+    Calculare Pret
+  </div>
+
+  <div class="panel" id="panel2">
+    <input id="pa2" placeholder="PA (150)">
+    <input id="vat2" placeholder="TVA % (21)">
+    <input id="marja2" placeholder="Marja % (25)">
+    <button onclick="calculatePrice()">Calculeaza Pret</button>
+    <div class="result" id="result2"></div>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="panel-title" id="title3" onclick="togglePanel('panel3','title3')">
+    Calculare WES
+  </div>
+
+  <div class="panel" id="panel3">
+    <input id="ca3" placeholder="Cifra Afaceri / Vanzare (10.200)">
+    <input id="marja3" placeholder="Marja Vanzare % (35)">
+    <input id="vat3" placeholder="TVA % (21)">
+    <button onclick="calculateWES()">Calculeaza WES</button>
+    <div class="result" id="result3"></div>
+  </div>
+
+</div>
+
+<script>
+function togglePanel(panelId, titleId) {
+  let panels = document.querySelectorAll(".panel");
+  let titles = document.querySelectorAll(".panel-title");
+
+  panels.forEach(panel => {
+    if(panel.id === panelId && !panel.classList.contains("open")) {
+      panel.classList.add("open");
+    } else {
+      panel.classList.remove("open");
+    }
+  });
+
+  titles.forEach(title => {
+    if(title.id === titleId && document.getElementById(panelId).classList.contains("open")) {
+      title.classList.add("active");
+    } else {
+      title.classList.remove("active");
+    }
+  });
+}
+
+function parseNumber(value) {
+  return parseFloat(value.replace(/\./g, "").replace(",", "."));
+}
+
+function formatNumber(value) {
+  return value.toLocaleString("ro-RO", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+// PANEL 1
+function calculateMJ() {
+  let pa = parseNumber(document.getElementById("pa").value);
+  let vatInput = parseNumber(document.getElementById("vat").value);
+  let pv = parseNumber(document.getElementById("pv").value);
+
+  if (isNaN(pa) || isNaN(vatInput) || isNaN(pv) || pv === 0) {
+    document.getElementById("result1").innerText = "Valori invalide";
+    return;
+  }
+
+  let vat = 1 + (vatInput / 100);
+  let marja = 1 - (pa * vat / pv);
+
+  document.getElementById("result1").innerText =
+    "Marja: " + formatNumber(marja * 100) + " %";
+}
+
+// PANEL 2
+function calculatePrice() {
+  let pa = parseNumber(document.getElementById("pa2").value);
+  let vatInput = parseNumber(document.getElementById("vat2").value);
+  let marjaInput = parseNumber(document.getElementById("marja2").value);
+
+  if (isNaN(pa) || isNaN(vatInput) || isNaN(marjaInput)) {
+    document.getElementById("result2").innerText = "Valori invalide";
+    return;
+  }
+
+  let vat = 1 + (vatInput / 100);
+  let marja = 1 - (marjaInput / 100);
+
+  let price = (pa * vat) / marja;
+
+  document.getElementById("result2").innerText =
+    "Pret: " + formatNumber(price);
+}
+
+// PANEL 3
+function calculateWES() {
+  let ca = parseNumber(document.getElementById("ca3").value);
+  let marjaInput = parseNumber(document.getElementById("marja3").value);
+  let vatInput = parseNumber(document.getElementById("vat3").value);
+
+  if (
+    isNaN(ca) ||
+    isNaN(marjaInput) ||
+    isNaN(vatInput) ||
+    marjaInput < 0 ||
+    marjaInput > 100
+  ) {
+    document.getElementById("result3").innerText = "Valori invalide";
+    return;
+  }
+
+  let vat = 1 + (vatInput / 100);
+  let marjaFactor = 1 - (marjaInput / 100);
+
+  let base = ca / vat;
+  let wes = base * marjaFactor;
+
+  document.getElementById("result3").innerText =
+    "WES: " + formatNumber(wes);
+}
+</script>
+
+</body>
+</html>
