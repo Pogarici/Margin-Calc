@@ -20,7 +20,6 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* PANEL TITLES */
 .panel-title {
   font-size: 18px;
   font-weight: bold;
@@ -43,7 +42,6 @@ body {
   filter: brightness(1.1);
 }
 
-/* PANEL CONTENT */
 .panel {
   overflow: hidden;
   max-height: 0;
@@ -55,7 +53,6 @@ body {
   max-height: 600px;
 }
 
-/* INPUTS */
 input {
   width: 100%;
   padding: 10px;
@@ -65,7 +62,6 @@ input {
   border: 1px solid #ccc;
 }
 
-/* BUTTONS */
 button {
   width: 100%;
   padding: 12px;
@@ -84,7 +80,6 @@ button:hover {
   box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 }
 
-/* RESULT DISPLAY */
 .result {
   margin-top: 15px;
   font-size: 18px;
@@ -147,8 +142,8 @@ button:hover {
 
   <div class="panel" id="panel4">
     <input id="vanzare4" placeholder="Vanzare Buc. (Ex: 500)">
-    <input id="zile4" placeholder="Vanzare Actuala in Zile | Luni (Ex: 52 zile sau 1,7 luni)">
-    <input id="stoc4" placeholder="Stoc (Ex: 890)">
+    <input id="zile4" placeholder="Vanzare Actuala in Zile | Luni (Ex: 55 zile sau 1,8 luni">
+    <input id="stoc4" placeholder="Stoc (Ex: 750)">
     <input id="perioada4" placeholder="Perioada Totala Analiza (Ex: 365 zile sau 12 luni)">
     <button onclick="calculateRotatie()">Calculeaza Rotatie</button>
     <div class="result" id="result4"></div>
@@ -204,7 +199,7 @@ function calculateMJ() {
   let marja = 1 - (pa * vat / pv);
 
   document.getElementById("result1").innerText =
-    "Marja: " + formatNumber(marja * 100) + " %";
+    "Marja: " + formatNumber(marja * 100) + "%";
 }
 
 // PANEL 2
@@ -267,7 +262,8 @@ function calculateRotatie() {
     isNaN(zile) ||
     isNaN(perioada) ||
     stoc === 0 ||
-    zile === 0
+    zile === 0 ||
+    (vanzare + stoc) === 0
   ) {
     document.getElementById("result4").innerText = "Valori invalide";
     return;
@@ -276,12 +272,36 @@ function calculateRotatie() {
   let rata = vanzare / zile;
   let proiectie = perioada * rata;
   let rotatie = proiectie / stoc;
+  let cota = vanzare / (vanzare + stoc);
 
   document.getElementById("result4").innerHTML =
+    "Cota Vanzare: " + formatNumber(cota * 100) + "%<br>" +
     "Rata Vanzare: " + formatNumber(rata) + "<br>" +
     "Proiectie Vanzare: " + formatNumber(proiectie) + "<br><br>" +
     "<strong>ROTATIE STOC: " + formatNumber(rotatie) + "</strong>";
 }
+
+/* ✅ ENTER KEY SUPPORT (BEST UX) */
+document.querySelectorAll("input").forEach(input => {
+  input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+
+      if (document.getElementById("panel1").classList.contains("open")) {
+        calculateMJ();
+      } 
+      else if (document.getElementById("panel2").classList.contains("open")) {
+        calculatePrice();
+      } 
+      else if (document.getElementById("panel3").classList.contains("open")) {
+        calculateWES();
+      } 
+      else if (document.getElementById("panel4").classList.contains("open")) {
+        calculateRotatie();
+      }
+
+    }
+  });
+});
 </script>
 
 </body>
