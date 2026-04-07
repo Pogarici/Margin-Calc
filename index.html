@@ -103,53 +103,53 @@ button:hover {
 
   <!-- PANEL 1 -->
   <div class="panel-title" id="title1" onclick="togglePanel('panel1','title1')">
-    Calculare Marja
+    Calcul Marja
   </div>
 
   <div class="panel" id="panel1">
-    <input id="pa" placeholder="PA (150)">
-    <input id="vat" placeholder="TVA % (21)">
-    <input id="pv" placeholder="PV (302,5)">
+    <input id="pa" placeholder="PA (Ex:150)">
+    <input id="vat" placeholder="TVA % (Ex:21)">
+    <input id="pv" placeholder="PV (Ex:302,5)">
     <button onclick="calculateMJ()">Calculeaza Marja</button>
     <div class="result" id="result1"></div>
   </div>
 
   <!-- PANEL 2 -->
   <div class="panel-title" id="title2" onclick="togglePanel('panel2','title2')">
-    Calculare Pret
+    Calcul Pret
   </div>
 
   <div class="panel" id="panel2">
-    <input id="pa2" placeholder="PA (150)">
-    <input id="vat2" placeholder="TVA % (21)">
-    <input id="marja2" placeholder="Marja % (25)">
+    <input id="pa2" placeholder="PA (Ex:150)">
+    <input id="vat2" placeholder="TVA % (Ex:21)">
+    <input id="marja2" placeholder="Marja % (Ex:25)">
     <button onclick="calculatePrice()">Calculeaza Pret</button>
     <div class="result" id="result2"></div>
   </div>
 
   <!-- PANEL 3 -->
   <div class="panel-title" id="title3" onclick="togglePanel('panel3','title3')">
-    Calculare WES
+    Calcul WES
   </div>
 
   <div class="panel" id="panel3">
-    <input id="ca3" placeholder="Cifra Afaceri / Vanzare (10.200)">
-    <input id="marja3" placeholder="Marja Vanzare % (35)">
-    <input id="vat3" placeholder="TVA % (21)">
+    <input id="ca3" placeholder="Cifra Afaceri / Vanzare (Ex: 10.200)">
+    <input id="marja3" placeholder="Marja Vanzare % (Ex: 35)">
+    <input id="vat3" placeholder="TVA % (Ex: 21)">
     <button onclick="calculateWES()">Calculeaza WES</button>
     <div class="result" id="result3"></div>
   </div>
 
   <!-- PANEL 4 -->
   <div class="panel-title" id="title4" onclick="togglePanel('panel4','title4')">
-    Rotatie
+    Calcul Rotatie
   </div>
 
   <div class="panel" id="panel4">
-    <input id="vanzare4" placeholder="Vanzare (510)">
-    <input id="stoc4" placeholder="Stoc (890)">
-    <input id="zile4" placeholder="Zile | Luni (52 sau 1,7)">
-    <input id="perioada4" placeholder="Perioada Analiza (365 sau 12)">
+    <input id="vanzare4" placeholder="Vanzare (Ex: 500)">
+    <input id="stoc4" placeholder="Stoc (Ex: 890)">
+    <input id="zile4" placeholder="Zile | Luni (Ex: 52 zile sau 1,7 luni)">
+    <input id="perioada4" placeholder="Perioada Analiza (Ex: 365 zile sau 12 luni)">
     <button onclick="calculateRotatie()">Calculeaza Rotatie</button>
     <div class="result" id="result4"></div>
   </div>
