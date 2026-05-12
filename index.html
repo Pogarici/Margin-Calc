@@ -142,9 +142,9 @@ button:hover {
 
   <div class="panel" id="panel4">
     <input id="vanzare4" placeholder="Vanzare Buc. (Ex: 500)">
-    <input id="zile4" placeholder="Zile/Luni vanzare acumulata">
+    <input id="zile4" placeholder="Zile/Luni vanzare acumulata (Ex: 55 zile sau 1,8 luni)">
     <input id="stoc4" placeholder="Stoc (Ex: 750)">
-    <input id="perioada4" placeholder="Perioada Totala Analiza">
+    <input id="perioada4" placeholder="Perioada Totala Analiza (Ex: 365 zile sau 12 luni)">
     <button onclick="calculateRotatie()">Calculeaza Rotatie</button>
     <div class="result" id="result4"></div>
   </div>
@@ -199,7 +199,104 @@ function formatNumber(value) {
   });
 }
 
-/* PANEL 5 NEW */
+// PANEL 1
+function calculateMJ() {
+  let pa = parseNumber(document.getElementById("pa").value);
+  let vatInput = parseNumber(document.getElementById("vat").value);
+  let pv = parseNumber(document.getElementById("pv").value);
+
+  if (isNaN(pa) || isNaN(vatInput) || isNaN(pv) || pv === 0) {
+    document.getElementById("result1").innerText = "Valori invalide";
+    return;
+  }
+
+  let vat = 1 + (vatInput / 100);
+  let marja = 1 - (pa * vat / pv);
+
+  document.getElementById("result1").innerText =
+    "Marja: " + formatNumber(marja * 100) + "%";
+}
+
+// PANEL 2
+function calculatePrice() {
+  let pa = parseNumber(document.getElementById("pa2").value);
+  let vatInput = parseNumber(document.getElementById("vat2").value);
+  let marjaInput = parseNumber(document.getElementById("marja2").value);
+
+  if (isNaN(pa) || isNaN(vatInput) || isNaN(marjaInput)) {
+    document.getElementById("result2").innerText = "Valori invalide";
+    return;
+  }
+
+  let vat = 1 + (vatInput / 100);
+  let marja = 1 - (marjaInput / 100);
+
+  let price = (pa * vat) / marja;
+
+  document.getElementById("result2").innerText =
+    "Pret: " + formatNumber(price);
+}
+
+// PANEL 3
+function calculateWES() {
+  let ca = parseNumber(document.getElementById("ca3").value);
+  let marjaInput = parseNumber(document.getElementById("marja3").value);
+  let vatInput = parseNumber(document.getElementById("vat3").value);
+
+  if (
+    isNaN(ca) ||
+    isNaN(marjaInput) ||
+    isNaN(vatInput) ||
+    marjaInput < 0 ||
+    marjaInput > 100
+  ) {
+    document.getElementById("result3").innerText = "Valori invalide";
+    return;
+  }
+
+  let vat = 1 + (vatInput / 100);
+  let marjaFactor = 1 - (marjaInput / 100);
+
+  let base = ca / vat;
+  let wes = base * marjaFactor;
+
+  document.getElementById("result3").innerText =
+    "WES: " + formatNumber(wes);
+}
+
+// PANEL 4
+function calculateRotatie() {
+  let vanzare = parseNumber(document.getElementById("vanzare4").value);
+  let stoc = parseNumber(document.getElementById("stoc4").value);
+  let zile = parseNumber(document.getElementById("zile4").value);
+  let perioada = parseNumber(document.getElementById("perioada4").value);
+
+  if (
+    isNaN(vanzare) ||
+    isNaN(stoc) ||
+    isNaN(zile) ||
+    isNaN(perioada) ||
+    stoc === 0 ||
+    zile === 0 ||
+    (vanzare + stoc) === 0
+  ) {
+    document.getElementById("result4").innerText = "Valori invalide";
+    return;
+  }
+
+  let rata = vanzare / zile;
+  let proiectie = perioada * rata;
+  let rotatie = proiectie / stoc;
+  let cota = vanzare / (vanzare + stoc);
+
+  document.getElementById("result4").innerHTML =
+    "Cota Vanzare: " + formatNumber(cota * 100) + "%<br>" +
+    "Rata Vanzare: " + formatNumber(rata) + "<br>" +
+    "Proiectie Vanzare: " + formatNumber(proiectie) + "<br><br>" +
+    "<strong>ROTATIE STOC: " + formatNumber(rotatie) + "</strong>";
+}
+
+// PANEL 5
 function calculateRL() {
   let wesActual = parseNumber(document.getElementById("wesActual5").value);
   let paActual = parseNumber(document.getElementById("paActual5").value);
@@ -226,7 +323,7 @@ function calculateRL() {
     "<strong>Procent: " + formatNumber(percent * 100) + "%</strong>";
 }
 
-/* ENTER SUPPORT */
+/* ✅ ENTER KEY SUPPORT (BEST UX) */
 document.querySelectorAll("input").forEach(input => {
   input.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
@@ -254,4 +351,3 @@ document.querySelectorAll("input").forEach(input => {
 
 </body>
 </html>
-``
